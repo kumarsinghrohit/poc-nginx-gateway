@@ -1,0 +1,27 @@
+resolver 127.0.0.1;
+
+#
+# Service upstream definition
+#
+upstream store {
+	server store:8001;
+}
+
+server {
+  listen 80;
+  client_max_body_size 50M;
+
+  #
+  # Store service mapping
+  #
+  location / {
+		ssi on;
+  	# Using a variable in proxy_pass forces re-resolution of the DNS names
+		# Use ending slash to remove location prefix from requests
+    set $service_store "http://store";
+    proxy_pass 				$service_store;
+		proxy_redirect		off;
+    include 					inc/proxy_header.conf;
+	}
+
+}

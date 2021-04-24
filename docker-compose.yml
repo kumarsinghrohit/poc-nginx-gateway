@@ -1,0 +1,13 @@
+version: '3.4'
+
+# used for testing purposes only
+services:
+  poc-nginx-gateway:
+    build: .
+    ports:
+      - 80:80
+    environment:
+      - APPLICATION_PORT=http
+      - APPLICATION_PROTO=80
+  store:
+    image: nginx
